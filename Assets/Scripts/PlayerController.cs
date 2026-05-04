@@ -1,12 +1,15 @@
+using System;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour, IKitchenObjectHolder
 {
+    public event Action<BaseCounter> OnSelectedCounterChanged;
     [SerializeField] private float moveSpeed = 7f;
     [SerializeField] private float rotateSpeed = 10f;
     [SerializeField] private float playerRadius = 0.7f;
     [SerializeField] private float playerHeight = 2f;
     [SerializeField] private float interactDistance = 2f;
+    [SerializeField] private float slideSpeedMultiplier = 0.7f;
     [SerializeField] private LayerMask countersLayerMask;
     [SerializeField] private Transform kitchenObjectHoldPoint;
 
@@ -58,12 +61,12 @@ public class PlayerController : MonoBehaviour, IKitchenObjectHolder
 
             if (CanSlide(capsuleBottom, capsuleTop, slideX, moveDistance))
             {
-                moveDir = slideX.normalized;
+                moveDir = slideX.normalized * slideSpeedMultiplier;
                 canMove = true;
             }
             else if (CanSlide(capsuleBottom, capsuleTop, slideZ, moveDistance))
             {
-                moveDir = slideZ.normalized;
+                moveDir = slideZ.normalized * slideSpeedMultiplier;
                 canMove = true;
             }
         }
@@ -109,6 +112,7 @@ public class PlayerController : MonoBehaviour, IKitchenObjectHolder
     private void SetSelectedCounter(BaseCounter counter)
     {
         selectedCounter = counter;
+        OnSelectedCounterChanged?.Invoke(selectedCounter);
     }
 
     // ── KitchenObject holding ──────────────────────────────────────────────
