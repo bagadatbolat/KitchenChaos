@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour, IKitchenObjectHolder
 {
@@ -10,35 +9,36 @@ public class PlayerController : MonoBehaviour, IKitchenObjectHolder
     [SerializeField] private float interactDistance = 2f;
     [SerializeField] private LayerMask countersLayerMask;
     [SerializeField] private Transform kitchenObjectHoldPoint;
+    [SerializeField] private GameInput gameInput;
 
     private bool isWalking;
     private Vector3 lastInteractDir;
     private BaseCounter selectedCounter;
     private KitchenObject kitchenObject;
 
+    private void Start()
+    {
+        GameInput.Instance.OnInteract += Interact;
+        GameInput.Instance.OnInteractAlternate += InteractAlternate;
+    }
+
+    private void OnDestroy()
+    {
+        GameInput.Instance.OnInteract -= Interact;
+        GameInput.Instance.OnInteractAlternate -= InteractAlternate;
+    }
+
     private void Update()
     {
         HandleMovement();
         HandleInteractions();
-        HandleInteractInput();
     }
 
     public bool IsWalking() => isWalking;
 
-    private Vector2 GetInputVector()
-    {
-        var kb = Keyboard.current;
-        Vector2 v = Vector2.zero;
-        if (kb.wKey.isPressed || kb.upArrowKey.isPressed)    v.y += 1f;
-        if (kb.sKey.isPressed || kb.downArrowKey.isPressed)  v.y -= 1f;
-        if (kb.aKey.isPressed || kb.leftArrowKey.isPressed)  v.x -= 1f;
-        if (kb.dKey.isPressed || kb.rightArrowKey.isPressed) v.x += 1f;
-        return Vector2.ClampMagnitude(v, 1f);
-    }
-
     private void HandleMovement()
     {
-        Vector2 input = GetInputVector();
+        Vector2 input = GameInput.Instance.GetMovementVectorNormalized();
         Vector3 moveDir = new Vector3(input.x, 0f, input.y).normalized;
 
         isWalking = moveDir != Vector3.zero;
@@ -83,7 +83,7 @@ public class PlayerController : MonoBehaviour, IKitchenObjectHolder
 
     private void HandleInteractions()
     {
-        Vector2 input = GetInputVector();
+        Vector2 input = GameInput.Instance.GetMovementVectorNormalized();
         Vector3 moveDir = new Vector3(input.x, 0f, input.y).normalized;
 
         if (moveDir != Vector3.zero)
@@ -95,16 +95,6 @@ public class PlayerController : MonoBehaviour, IKitchenObjectHolder
 
         if (counter != selectedCounter)
             SetSelectedCounter(counter);
-    }
-
-    private void HandleInteractInput()
-    {
-        var kb = Keyboard.current;
-        if (kb.eKey.wasPressedThisFrame)
-            Interact();
-
-        if (kb.fKey.wasPressedThisFrame)
-            InteractAlternate();
     }
 
     private void Interact()
