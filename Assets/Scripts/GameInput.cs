@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class GameInput : MonoBehaviour
 {
@@ -9,28 +8,26 @@ public class GameInput : MonoBehaviour
     public event Action OnInteract;
     public event Action OnInteractAlternate;
 
+    private PlayerInputActions playerInputActions;
+
     private void Awake()
     {
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
         Instance = this;
+        playerInputActions = new PlayerInputActions();
+        playerInputActions.Player.Interact.performed += _ => OnInteract?.Invoke();
+        playerInputActions.Player.InteractAlternate.performed += _ => OnInteractAlternate?.Invoke();
+        playerInputActions.Player.Enable();
     }
 
-    private void Update()
+    private void OnDestroy()
     {
-        var kb = Keyboard.current;
-        if (kb.eKey.wasPressedThisFrame) OnInteract?.Invoke();
-        if (kb.fKey.wasPressedThisFrame) OnInteractAlternate?.Invoke();
+        playerInputActions.Dispose();
     }
 
     /// <summary>Returns normalized movement input vector.</summary>
     public Vector2 GetMovementVectorNormalized()
     {
-        var kb = Keyboard.current;
-        Vector2 v = Vector2.zero;
-        if (kb.wKey.isPressed || kb.upArrowKey.isPressed)    v.y += 1f;
-        if (kb.sKey.isPressed || kb.downArrowKey.isPressed)  v.y -= 1f;
-        if (kb.aKey.isPressed || kb.leftArrowKey.isPressed)  v.x -= 1f;
-        if (kb.dKey.isPressed || kb.rightArrowKey.isPressed) v.x += 1f;
-        return Vector2.ClampMagnitude(v, 1f);
+        return playerInputActions.Player.Move.ReadValue<Vector2>().normalized;
     }
 }
