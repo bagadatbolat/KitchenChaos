@@ -9,7 +9,6 @@ public class PlayerController : MonoBehaviour, IKitchenObjectHolder
     [SerializeField] private float interactDistance = 2f;
     [SerializeField] private LayerMask countersLayerMask;
     [SerializeField] private Transform kitchenObjectHoldPoint;
-    [SerializeField] private GameInput gameInput;
 
     private bool isWalking;
     private Vector3 lastInteractDir;
