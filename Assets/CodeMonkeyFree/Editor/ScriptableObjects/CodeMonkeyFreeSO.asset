@@ -14,21 +14,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentVersion: 1.01
   subtype: kitchenchaos
-  lastShownTimestamp: 1777898558
+  lastShownTimestamp: 1778218096
   lastUpdateResponse:
     version: 1.01
     versionUrl: https://unitycodemonkey.com
-  checkedLastUpdateTimestamp: 1777898558
+  checkedLastUpdateTimestamp: 1778218096
   lastQOTDResponse:
-    questionId: 298
-    questionText: What is the main difference between the out and ref keywords? (behaviour
-      inside the function)
-    answerA: out doesn't need to be set; ref MUST be set
-    answerB: out MUST be set; ref doesn't need to be set
-    answerC: No difference
+    questionId: 299
+    questionText: 'Does this variable get reset when you load a different Scene?
+
+      <p>private
+      static int score;</p>'
+    answerA: Yes
+    answerB: No
+    answerC: Only when loading the Main Menu
     answerD: 
     answerE: 
-  lastQotdTimestamp: 1777898558
+  lastQotdTimestamp: 1778218096
   lastDynamicHeaderResponse:
     topImageUrl: https://codemonkeyexternal.blob.core.windows.net/external/Misc/codeMonkeyToolkit50Off.png
     topText: My Toolkit is 50% OFF! 40+ Tools and Elements to help you make games
@@ -36,19 +38,19 @@ MonoBehaviour:
     topLink: toolkit
     bottomText: My 10+ Years of C# Knowledge in 1 Course!
     bottomLink: csharpcourse
-  lastDynamicHeaderTimestamp: 1777898558
+  lastDynamicHeaderTimestamp: 1778218096
   websiteLatestMessage:
     text: <a href="https://cmonkey.co/freecourses">Check out all my FREE courses!
       Click here!</a>
-  websiteLatestMessageTimestamp: 1777898558
+  websiteLatestMessageTimestamp: 1778218096
   websiteLatestVideos:
     videos:
+    - youTubeId: _WB6Ui5XeH0
+      title: The 10 SECRETS to making BETTER games!
+    - youTubeId: Hg5u-qEIoDo
+      title: What I DON'T want to happen to YOU!
     - youTubeId: 2gP-2rQ3o_Q
       title: This Tool FIXES your Unity Project!
     - youTubeId: 1bLBKMQ9YwE
       title: BEST NEW Visual Assets to INSPIRE YOU! (APRIL 2026)
-    - youTubeId: XB7b4EXfjgM
-      title: What do YOU consider SUCCESS?
-    - youTubeId: LDgPyFmlsSI
-      title: 8 QUICK Game Dev Tips for SUCCESS!
-  websiteLatestVideosTimestamp: 1777898558
+  websiteLatestVideosTimestamp: 1778218096

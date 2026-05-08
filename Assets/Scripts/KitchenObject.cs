@@ -2,9 +2,20 @@ using UnityEngine;
 
 public class KitchenObject : MonoBehaviour
 {
+    [SerializeField] private KitchenObjectSO kitchenObjectSO;
+
     private IKitchenObjectHolder kitchenObjectParent;
 
-    private void Update()
+    public KitchenObjectSO GetKitchenObjectSO() => kitchenObjectSO;
+
+    public static KitchenObject SpawnKitchenObject(KitchenObjectSO so, IKitchenObjectHolder parent)
+    {
+        KitchenObject obj = Instantiate(so.prefab);
+        obj.SetKitchenObjectParent(parent);
+        return obj;
+    }
+
+    private void LateUpdate()
     {
         if (kitchenObjectParent != null)
             transform.position = kitchenObjectParent.GetKitchenObjectFollowTransform().position;
