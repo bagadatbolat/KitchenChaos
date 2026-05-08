@@ -15,12 +15,6 @@ public class KitchenObject : MonoBehaviour
         return obj;
     }
 
-    private void LateUpdate()
-    {
-        if (kitchenObjectParent != null)
-            transform.position = kitchenObjectParent.GetKitchenObjectFollowTransform().position;
-    }
-
     public IKitchenObjectHolder GetKitchenObjectParent() => kitchenObjectParent;
 
     public void SetKitchenObjectParent(IKitchenObjectHolder parent)
@@ -28,7 +22,11 @@ public class KitchenObject : MonoBehaviour
         kitchenObjectParent?.ClearKitchenObject();
         kitchenObjectParent = parent;
         parent.SetKitchenObject(this);
-        transform.parent = null;
+
+        Transform followTransform = parent.GetKitchenObjectFollowTransform();
+        transform.SetParent(followTransform);
+        transform.localPosition = Vector3.zero;
+        transform.localRotation = Quaternion.identity;
     }
 
     public void DestroySelf()

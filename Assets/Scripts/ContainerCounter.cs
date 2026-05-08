@@ -1,16 +1,12 @@
 using UnityEngine;
 
-public class ContainerCounter : MonoBehaviour
+public class ContainerCounter : BaseCounter
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    [SerializeField] private KitchenObjectSO kitchenObjectSO;
 
-    // Update is called once per frame
-    void Update()
+    public override void Interact(PlayerController player)
     {
-        
+        if (!player.HasKitchenObject())
+            KitchenObject.SpawnKitchenObject(kitchenObjectSO, player);
     }
 }
